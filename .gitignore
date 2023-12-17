@@ -357,3 +357,7 @@ dist/
 *db-shm
 *db-wal
 OpenAlprWebhookProcessor/angularapp/.angular/*
+
+.DS_Store
+nohup.out
+config
