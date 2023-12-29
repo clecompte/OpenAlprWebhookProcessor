@@ -350,6 +350,7 @@ MigrationBackup/
 .ionide/
 
 *.db
+*.sln
 
 dist/
 

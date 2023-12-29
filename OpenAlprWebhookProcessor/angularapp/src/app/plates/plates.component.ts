@@ -412,6 +412,10 @@ export class PlatesComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
     }
+
+    trackByIdentity(index, item){
+        return item.name; 
+    }
 }
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {

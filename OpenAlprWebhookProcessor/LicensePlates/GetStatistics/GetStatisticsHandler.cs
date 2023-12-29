@@ -44,9 +44,9 @@ namespace OpenAlprWebhookProcessor.LicensePlates.GetStatistics
 
             var plateStatistics = new PlateStatistics
             {
-                TotalSeen = seenPlates.Count,
+                TotalSeen = seenPlates.Count / 2,
                 Last90Days = seenPlates
-                    .Count(x => x > endingEpoch)
+                    .Count(x => x > endingEpoch) / 2
             };
 
             var firstSeenEpoch = seenPlates
