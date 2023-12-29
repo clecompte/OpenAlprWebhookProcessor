@@ -255,9 +255,9 @@ export class PlatesComponent implements OnInit, OnDestroy, AfterViewInit {
         if (plateNumber !== '') {
             this.filterPlateNumber = plateNumber;
         }
-
-        this.filterStartOn?.setUTCHours(0, 0, 0, 0);
-        this.filterEndOn?.setUTCHours(23, 59, 59, 999);
+        
+        this.filterStartOn?.setHours(0, 0, 0, 0);
+        this.filterEndOn?.setHours(23, 59, 59, 999);
 
         const request = new PlateRequest();
 
