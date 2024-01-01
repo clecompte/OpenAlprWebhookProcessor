@@ -33,13 +33,13 @@ namespace OpenAlprWebhookProcessor.Alerts.WebPush
 
             await _alertClient.SendAlertAsync(new AlertUpdateRequest()
             {
-                Description = "was seen on " + DateTimeOffset.UtcNow.ToString("g"),
+                Description = "was seen on " + DateTimeOffset.Now.ToString("g"),
                 IsUrgent = true,
                 PlateId = testPlateGroup.Id,
                 PlateNumber = testPlateGroup.BestNumber,
                 PlateJpeg = testPlateGroup.PlateImage.Jpeg,
                 PlateJpegUrl = $"/images/crop/{testPlateGroup.OpenAlprUuid}",
-                ReceivedOn = DateTimeOffset.UtcNow,
+                ReceivedOn = DateTimeOffset.Now,
             }, cancellationToken);
         }
     }
