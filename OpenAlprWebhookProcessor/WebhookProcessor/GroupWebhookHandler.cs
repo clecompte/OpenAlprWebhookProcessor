@@ -174,7 +174,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                         x.PlateNumber.ToUpper() == webhook.Group.BestPlateNumber
                         || plateGroup.PossibleNumbers.Any(y => y.Number == x.PlateNumber.ToUpper()));
 
-                    var receivedOn = DateTimeOffset.FromUnixTimeMilliseconds(webhook.Group.EpochStart);
+                    var receivedOn =  DateTimeOffset.Now;
 
                     if (alert != null)
                     {
