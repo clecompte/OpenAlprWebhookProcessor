@@ -55,7 +55,7 @@ export class PlateComponent implements OnInit, OnChanges, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.loadingVehicleImage = true;
+        //this.loadingVehicleImage = true;
         this.loadingPlateImage = true;
         this.getPlateStatistics();
         this.getPlateImages();
@@ -69,9 +69,9 @@ export class PlateComponent implements OnInit, OnChanges, OnDestroy {
                 this.loadingStatisticsFailed = false;
                 this.statisticsSubscription.unsubscribe();
 
-                if (this.loadingVehicleImage) {
-                    this.vehicleImageUrl = '';
-                }
+                // if (this.loadingVehicleImage) {
+                //     this.vehicleImageUrl = '';
+                // }
 
                 if (this.loadingPlateImage) {
                     this.plateImageUrl = '';
@@ -146,17 +146,18 @@ export class PlateComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     private getPlateImages() {
-        if (!this.vehicleImageUrl) {
-            this.loadingVehicleImage = true;
-            this.loadingVehicleImageFailed = false;
-            this.vehicleImageUrl = this.plate.imageUrl.toString();
-        }
+        // if (!this.vehicleImageUrl) {
+        //     this.loadingVehicleImage = true;
+        //     this.loadingVehicleImageFailed = false;
+        // }
+        this.vehicleImageUrl = 'http://192.168.4.211:5500' + this.plate.imageUrl.toString() + '.jpg';
     
-        if (!this.plateImageUrl) {
-            this.loadingPlateImage = true;
-            this.loadingPlateImageFailed = false;
-            this.plateImageUrl = this.plate.cropImageUrl.toString();
-        }
+        // if (!this.plateImageUrl) {
+        //     this.loadingPlateImage = true;
+        //     this.loadingPlateImageFailed = false;
+        //     this.plateImageUrl = this.plate.cropImageUrl.toString();
+        // }
+        this.plateImageUrl = 'http://192.168.4.211:5500' + this.plate.cropImageUrl.toString() + '.jpg';
     }
 
     public openLightbox(url: URL, plateNumber: string) {

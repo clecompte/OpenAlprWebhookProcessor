@@ -15,13 +15,13 @@ namespace OpenAlprWebhookProcessor.Data
 
         public bool IsCompressed { get; set; }
 
-        public static void OnModelCreating(ModelBuilder builder)
-        {
-            builder.Entity<PlateImage>()
-                .HasIndex(x => x.Id);
+        // public static void OnModelCreating(ModelBuilder builder)
+        // {
+        //     builder.Entity<PlateImage>()
+        //         .HasIndex(x => x.Id);
 
-            builder.Entity<PlateImage>()
-                .HasIndex(x => x.PlateGroupId);
-        }
+        //     builder.Entity<PlateImage>()
+        //         .HasIndex(x => x.PlateGroupId);
+        // }
     }
 }

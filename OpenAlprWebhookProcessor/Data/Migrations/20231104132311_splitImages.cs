@@ -71,31 +71,31 @@ namespace OpenAlprWebhookProcessor.Migrations
 
             
 
-            migrationBuilder.Sql(
-                @"INSERT INTO PlateImage
-                    (Id, PlateGroupId, Jpeg, IsCompressed)
-                        SELECT lower(
-                            hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-' || '4' || 
-                            substr(hex( randomblob(2)), 2) || '-' || 
-                            substr('AB89', 1 + (abs(random()) % 4) , 1)  ||
-                            substr(hex(randomblob(2)), 2) || '-' || 
-                            hex(randomblob(6)))
-                        , Id, PlateJpeg, isPlateJpegCompressed
-                        FROM PlateGroups
-                        WHERE PlateJpeg IS NOT NULL;");
+            // migrationBuilder.Sql(
+            //     @"INSERT INTO PlateImage
+            //         (Id, PlateGroupId, Jpeg, IsCompressed)
+            //             SELECT lower(
+            //                 hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-' || '4' || 
+            //                 substr(hex( randomblob(2)), 2) || '-' || 
+            //                 substr('AB89', 1 + (abs(random()) % 4) , 1)  ||
+            //                 substr(hex(randomblob(2)), 2) || '-' || 
+            //                 hex(randomblob(6)))
+            //             , Id, PlateJpeg, isPlateJpegCompressed
+            //             FROM PlateGroups
+            //             WHERE PlateJpeg IS NOT NULL;");
 
-            migrationBuilder.Sql(
-                @"INSERT INTO VehicleImage
-                    (Id, PlateGroupId, Jpeg, IsCompressed)
-                        SELECT lower(
-                            hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-' || '4' || 
-                            substr(hex( randomblob(2)), 2) || '-' || 
-                            substr('AB89', 1 + (abs(random()) % 4) , 1)  ||
-                            substr(hex(randomblob(2)), 2) || '-' || 
-                            hex(randomblob(6)))
-                        , Id, VehicleJpeg, isVehicleJpegCompressed
-                        FROM PlateGroups
-                        WHERE VehicleJpeg IS NOT NULL;");
+            // migrationBuilder.Sql(
+            //     @"INSERT INTO VehicleImage
+            //         (Id, PlateGroupId, Jpeg, IsCompressed)
+            //             SELECT lower(
+            //                 hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-' || '4' || 
+            //                 substr(hex( randomblob(2)), 2) || '-' || 
+            //                 substr('AB89', 1 + (abs(random()) % 4) , 1)  ||
+            //                 substr(hex(randomblob(2)), 2) || '-' || 
+            //                 hex(randomblob(6)))
+            //             , Id, VehicleJpeg, isVehicleJpegCompressed
+            //             FROM PlateGroups
+            //             WHERE VehicleJpeg IS NOT NULL;");
 
             migrationBuilder.DropColumn(
                 name: "PlateJpeg",

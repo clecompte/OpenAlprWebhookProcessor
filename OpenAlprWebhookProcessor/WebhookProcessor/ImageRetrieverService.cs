@@ -43,9 +43,9 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                 await ProcessImageRequestsAsync(),
                 cancellationToken);
 
-            Task.Run(async () =>
-                await ProcessImageCompressionRequestsAsync(),
-                cancellationToken);
+            // Task.Run(async () =>
+            //     await ProcessImageCompressionRequestsAsync(),
+            //     cancellationToken);
 
             return Task.CompletedTask;
         }
@@ -106,7 +106,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
 
                     var plateGroups = await processorContext.PlateGroups
                         .Include(x => x.PlateImage)
-                        .Include(x => x.VehicleImage)
+                        //.Include(x => x.VehicleImage)
                         .Where(x => x.OpenAlprUuid == job)
                         .ToListAsync(_cancellationTokenSource.Token);
 
@@ -117,14 +117,14 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
 
                     foreach (var plateGroup in plateGroups)
                     {
-                        if (plateGroup == null)
-                        {
-                            logger.LogError("Unable to find openalpr group id: {groupId}", job);
-                            continue;
-                        }
+                        // if (plateGroup == null)
+                        // {
+                        //     logger.LogError("Unable to find openalpr group id: {groupId}", job);
+                        //     continue;
+                        // }
 
-                        try
-                        {
+                        // try
+                        // {
                             var image = await GetImageHandler.GetImageFromAgentAsync(
                                 processorContext,
                                 job,
@@ -141,24 +141,31 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                                 IsCompressed = isImageCompressionEnabled,
                             };
 
+                            System.IO.File.WriteAllBytes("/Volumes/ALPR/data/images/crop/" + job + ".jpg", plateGroup.PlateImage.Jpeg);
+
                             plateGroup.VehicleImage = new VehicleImage()
                             {
                                 Jpeg = image,
                                 IsCompressed = isImageCompressionEnabled,
                             };
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, "Unable to retrieve image from Agent: {imageId}", job);
-                        }
 
-                        plateGroup.AgentImageScrapeOccurredOn = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-                        await processorContext.SaveChangesAsync(_cancellationTokenSource.Token);
+                            System.IO.File.WriteAllBytes("/Volumes/ALPR/data/images/" + job + ".jpg", plateGroup.VehicleImage.Jpeg);
 
-                        lock (_imageRequestsToProcessGate)
-                        {
-                            _imageRequestsToProcessList.Remove(job);
-                        }
+                            logger.LogInformation("file for: {imageId}", plateGroup.VehicleImage.Jpeg);
+
+                        // }
+                        // catch (Exception ex)
+                        // {
+                        //     logger.LogError(ex, "Unable to retrieve image from Agent: {imageId}", job);
+                        // }
+
+                        // plateGroup.AgentImageScrapeOccurredOn = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                        // await processorContext.SaveChangesAsync(_cancellationTokenSource.Token);
+
+                        // lock (_imageRequestsToProcessGate)
+                        // {
+                        //     _imageRequestsToProcessList.Remove(job);
+                        // }
                     }
 
                     logger.LogInformation("finished job for image: {imageId}", job);
@@ -166,71 +173,71 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
             }
         }
 
-        private async Task ProcessImageCompressionRequestsAsync()
-        {
-            foreach (var job in _imageCompressionRequestsToProcess.GetConsumingEnumerable(_cancellationTokenSource.Token))
-            {
-                using (var scope = _serviceProvider.CreateScope())
-                {
-                    bool keepPaging = true;
-                    long lastReceivedOnEpoch = 0;
+        // private async Task ProcessImageCompressionRequestsAsync()
+        // {
+        //     foreach (var job in _imageCompressionRequestsToProcess.GetConsumingEnumerable(_cancellationTokenSource.Token))
+        //     {
+        //         using (var scope = _serviceProvider.CreateScope())
+        //         {
+        //             bool keepPaging = true;
+        //             long lastReceivedOnEpoch = 0;
 
-                    while (keepPaging)
-                    {
-                        var processorContext = scope.ServiceProvider.GetRequiredService<ProcessorContext>();
-                        var logger = scope.ServiceProvider.GetRequiredService<ILogger<ImageRetrieverService>>();
+        //             while (keepPaging)
+        //             {
+        //                 var processorContext = scope.ServiceProvider.GetRequiredService<ProcessorContext>();
+        //                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<ImageRetrieverService>>();
 
-                        var isImageCompressionEnabled = await processorContext.Agents
-                            .AsNoTracking()
-                            .Select(x => x.IsImageCompressionEnabled)
-                            .FirstOrDefaultAsync();
+        //                 var isImageCompressionEnabled = await processorContext.Agents
+        //                     .AsNoTracking()
+        //                     .Select(x => x.IsImageCompressionEnabled)
+        //                     .FirstOrDefaultAsync();
 
-                        if (!isImageCompressionEnabled)
-                        {
-                            logger.LogWarning("Image compression disabled, check agent settings.");
-                            break;
-                        }
+        //                 if (!isImageCompressionEnabled)
+        //                 {
+        //                     logger.LogWarning("Image compression disabled, check agent settings.");
+        //                     break;
+        //                 }
 
-                        var plateGroups = await processorContext.PlateGroups
-                            .Include(x => x.PlateImage)
-                            .Include(x => x.VehicleImage)
-                            .OrderBy(x => x.ReceivedOnEpoch)
-                            .Where(x => x.ReceivedOnEpoch > lastReceivedOnEpoch)
-                            .Where(x => !x.PlateImage.IsCompressed || !x.VehicleImage.IsCompressed)
-                            .Where(x => x.PlateImage.Jpeg.Length > 0 || x.VehicleImage.Jpeg.Length > 0)
-                            .Take(25)
-                            .ToListAsync(_cancellationTokenSource.Token);
+        //                 var plateGroups = await processorContext.PlateGroups
+        //                     .Include(x => x.PlateImage)
+        //                     //.Include(x => x.VehicleImage)
+        //                     .OrderBy(x => x.ReceivedOnEpoch)
+        //                     .Where(x => x.ReceivedOnEpoch > lastReceivedOnEpoch)
+        //                     .Where(x => !x.PlateImage.IsCompressed || !x.VehicleImage.IsCompressed)
+        //                     .Where(x => x.PlateImage.Jpeg.Length > 0 || x.VehicleImage.Jpeg.Length > 0)
+        //                     .Take(25)
+        //                     .ToListAsync(_cancellationTokenSource.Token);
 
-                        if (!plateGroups.Any())
-                        {
-                            keepPaging = false;
-                        }
-                        else
-                        {
-                            lastReceivedOnEpoch = plateGroups.First().ReceivedOnEpoch;
-                        }
+        //                 if (!plateGroups.Any())
+        //                 {
+        //                     keepPaging = false;
+        //                 }
+        //                 else
+        //                 {
+        //                     lastReceivedOnEpoch = plateGroups.First().ReceivedOnEpoch;
+        //                 }
 
-                        logger.LogInformation("Searcing for images newer than {epoch}: {numberOfRequests} images queued for compression", lastReceivedOnEpoch, plateGroups.Count);
+        //                 logger.LogInformation("Searcing for images newer than {epoch}: {numberOfRequests} images queued for compression", lastReceivedOnEpoch, plateGroups.Count);
 
-                        foreach (var plateGroup in plateGroups)
-                        {
-                            if (!plateGroup.VehicleImage.IsCompressed && plateGroup.VehicleImage.Jpeg != null)
-                            {
-                                plateGroup.VehicleImage.Jpeg = GetImageHandler.CompressImage(plateGroup.VehicleImage.Jpeg);
-                                plateGroup.VehicleImage.IsCompressed = true;
-                            }
+        //                 foreach (var plateGroup in plateGroups)
+        //                 {
+        //                     // if (!plateGroup.VehicleImage.IsCompressed && plateGroup.VehicleImage.Jpeg != null)
+        //                     // {
+        //                     //     plateGroup.VehicleImage.Jpeg = GetImageHandler.CompressImage(plateGroup.VehicleImage.Jpeg);
+        //                     //     plateGroup.VehicleImage.IsCompressed = true;
+        //                     // }
 
-                            if (!plateGroup.PlateImage.IsCompressed && plateGroup.PlateImage.Jpeg != null)
-                            {
-                                plateGroup.PlateImage.Jpeg = GetImageHandler.CompressImage(plateGroup.PlateImage.Jpeg);
-                                plateGroup.PlateImage.IsCompressed = true;
-                            }
-                        }
+        //                     if (!plateGroup.PlateImage.IsCompressed && plateGroup.PlateImage.Jpeg != null)
+        //                     {
+        //                         plateGroup.PlateImage.Jpeg = GetImageHandler.CompressImage(plateGroup.PlateImage.Jpeg);
+        //                         plateGroup.PlateImage.IsCompressed = true;
+        //                     }
+        //                 }
 
-                        await processorContext.SaveChangesAsync(_cancellationTokenSource.Token);
-                    }
-                }
-            }
-        }
+        //                 await processorContext.SaveChangesAsync(_cancellationTokenSource.Token);
+        //             }
+        //         }
+        //     }
+        // }
     }
 }

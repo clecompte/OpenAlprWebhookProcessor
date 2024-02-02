@@ -5,42 +5,36 @@
             <mat-card-subtitle>Plate and Vehicle</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <mat-progress-spinner
+            <!-- <mat-progress-spinner
                 color="primary"
                 mode="indeterminate"
                 diameter="100"
-                *ngIf="loadingVehicleImage"></mat-progress-spinner>
+                *ngIf="loadingVehicleImage"></mat-progress-spinner> -->
             <img [src]="this.vehicleImageUrl"
                 class="resize-mobile"
                 style="cursor: pointer;"
-                alt="image of the vehicle"
+                alt=""
                 tabindex="0"
-                [hidden]="loadingVehicleImage || loadingVehicleImageFailed"
-                (load)="vehicleImageLoaded()"
-                (error)="vehicleImageFailedToLoad()"
                 (click)="openLightbox(plate.imageUrl, plate.plateNumber)"
                 (keydown)="openLightbox(plate.imageUrl, plate.plateNumber)" />
-            <mat-icon style="font-size: 100px; line-height: normal;"
+            <!-- <mat-icon style="font-size: 100px; line-height: normal;"
                 *ngIf="!this.vehicleImageUrl|| loadingVehicleImageFailed"
                 [inline]="true"
-                matTooltip="Unable to retrieve image from agent">help_center</mat-icon>
-            <mat-progress-spinner
+                matTooltip="Unable to retrieve image from agent">help_center</mat-icon> -->
+            <!-- <mat-progress-spinner
                 *ngIf="loadingPlateImage"
                 color="primary"
                 mode="indeterminate"
                 diameter="100">
-            </mat-progress-spinner>
+            </mat-progress-spinner> -->
             <img [src]="this.plateImageUrl"
                 class="resize-mobile"
                 style="width: 500px; padding-top:16px;"
-                alt="image of the vehicle's license plate"
-                [hidden]="loadingPlateImage || loadingPlateImageFailed"
-                (load)="plateImageLoaded()"
-                (error)="plateImageFailedToLoad()" />
-            <mat-icon style="font-size: 100px; line-height: normal;"
+                alt="" />
+            <!-- <mat-icon style="font-size: 100px; line-height: normal;"
                 *ngIf="!this.plateImageUrl || loadingPlateImageFailed"
                 [inline]="true"
-                matTooltip="Unable to retrieve image from agent">help_center</mat-icon>
+                matTooltip="Unable to retrieve image from agent">help_center</mat-icon> -->
         </mat-card-content>
     </mat-card>
     <mat-card class="example-card">

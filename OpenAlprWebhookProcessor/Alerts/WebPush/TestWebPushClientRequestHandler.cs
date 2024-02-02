@@ -24,10 +24,10 @@ namespace OpenAlprWebhookProcessor.Alerts.WebPush
 
         public async Task HandleAsync(CancellationToken cancellationToken)
         {
-            var testPlateGroup = await _processorContext.PlateGroups
-                .Include(x => x.PlateImage)
-                .Where(x => x.PlateImage != null)
-                .FirstOrDefaultAsync(cancellationToken);
+            // var testPlateGroup = await _processorContext.PlateGroups
+            //     .Include(x => x.PlateImage)
+            //     .Where(x => x.PlateImage != null)
+            //     .FirstOrDefaultAsync(cancellationToken);
 
             await _alertClient.VerifyCredentialsAsync(cancellationToken);
 
@@ -35,10 +35,10 @@ namespace OpenAlprWebhookProcessor.Alerts.WebPush
             {
                 Description = "was seen on " + DateTimeOffset.Now.ToString("g"),
                 IsUrgent = true,
-                PlateId = testPlateGroup.Id,
-                PlateNumber = testPlateGroup.BestNumber,
-                PlateJpeg = testPlateGroup.PlateImage.Jpeg,
-                PlateJpegUrl = $"/images/crop/{testPlateGroup.OpenAlprUuid}",
+                // PlateId = testPlateGroup.Id,
+                // PlateNumber = testPlateGroup.BestNumber,
+                // PlateJpeg = testPlateGroup.PlateImage.Jpeg,
+                // PlateJpegUrl = $"/images/crop/{testPlateGroup.OpenAlprUuid}",
                 ReceivedOn = DateTimeOffset.Now,
             }, cancellationToken);
         }

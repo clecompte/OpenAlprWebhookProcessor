@@ -33,9 +33,9 @@ namespace OpenAlprWebhookProcessor.Data
 
         public DbSet<Enricher> Enrichers { get; set; }
 
-        public DbSet<PlateImage> PlateImages { get; set; }
+        // public DbSet<PlateImage> PlateImages { get; set; }
 
-        public DbSet<PlateImage> VehicleImages { get; set; }
+        // public DbSet<PlateImage> VehicleImages { get; set; }
 
         public DbSet<WebPushSubscription> WebPushSubscriptions { get; set; }
 

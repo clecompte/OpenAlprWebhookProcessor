@@ -12,81 +12,81 @@ namespace OpenAlprWebhookProcessor.ImageRelay
 {
     public static class GetImageHandler
     {
-        public async static Task<Stream> GetImageFromLocalAsync(
-            ProcessorContext processorContext,
-            string imageId,
-            CancellationToken cancellationToken)
-        {
-            var plateGroup = await processorContext.PlateGroups
-                .Include(x => x.VehicleImage)
-                .Where(x => x.OpenAlprUuid == imageId)
-                .FirstOrDefaultAsync(cancellationToken);
+        // public async static Task<Stream> GetImageFromLocalAsync(
+        //     ProcessorContext processorContext,
+        //     string imageId,
+        //     CancellationToken cancellationToken)
+        // {
+        //     var plateGroup = await processorContext.PlateGroups
+        //         .Include(x => x.VehicleImage)
+        //         .Where(x => x.OpenAlprUuid == imageId)
+        //         .FirstOrDefaultAsync(cancellationToken);
 
-            var isImageCompressionEnabled = await processorContext.Agents
-                .AsNoTracking()
-                .Select(x => x.IsImageCompressionEnabled)
-                .FirstOrDefaultAsync(cancellationToken);
+        //     var isImageCompressionEnabled = await processorContext.Agents
+        //         .AsNoTracking()
+        //         .Select(x => x.IsImageCompressionEnabled)
+        //         .FirstOrDefaultAsync(cancellationToken);
 
-            if (plateGroup == null)
-            {
-                throw new ArgumentException("No image found with that id.");
-            }
+        //     if (plateGroup == null)
+        //     {
+        //         throw new ArgumentException("No image found with that id.");
+        //     }
 
-            if (plateGroup.VehicleImage == null)
-            {
-                plateGroup.VehicleImage = new VehicleImage()
-                {
-                    Jpeg = await GetImageFromAgentAsync(
-                        processorContext,
-                        imageId,
-                        cancellationToken),
-                    IsCompressed = isImageCompressionEnabled,
-                };
+        //     if (plateGroup.VehicleImage == null)
+        //     {
+        //         plateGroup.VehicleImage = new VehicleImage()
+        //         {
+        //             Jpeg = await GetImageFromAgentAsync(
+        //                 processorContext,
+        //                 imageId,
+        //                 cancellationToken),
+        //             IsCompressed = isImageCompressionEnabled,
+        //         };
 
-                await processorContext.SaveChangesAsync(cancellationToken);
-            }
+        //         await processorContext.SaveChangesAsync(cancellationToken);
+        //     }
 
-            return new MemoryStream(plateGroup.VehicleImage.Jpeg);
-        }
+        //     return new MemoryStream(plateGroup.VehicleImage.Jpeg);
+        // }
 
-        public async static Task<Stream> GetCropImageFromLocalAsync(
-            ProcessorContext processorContext,
-            string imageId,
-            CancellationToken cancellationToken)
-        {
-            var plateGroup = await processorContext.PlateGroups
-                .Include(x => x.PlateImage)
-                .Where(x => x.OpenAlprUuid == imageId)
-                .FirstOrDefaultAsync(cancellationToken);
+        // public async static Task<Stream> GetCropImageFromLocalAsync(
+        //     ProcessorContext processorContext,
+        //     string imageId,
+        //     CancellationToken cancellationToken)
+        // {
+        //     var plateGroup = await processorContext.PlateGroups
+        //         .Include(x => x.PlateImage)
+        //         .Where(x => x.OpenAlprUuid == imageId)
+        //         .FirstOrDefaultAsync(cancellationToken);
 
-            var isImageCompressionEnabled = await processorContext.Agents
-                .AsNoTracking()
-                .Select(x => x.IsImageCompressionEnabled)
-                .FirstOrDefaultAsync(cancellationToken);
+        //     var isImageCompressionEnabled = await processorContext.Agents
+        //         .AsNoTracking()
+        //         .Select(x => x.IsImageCompressionEnabled)
+        //         .FirstOrDefaultAsync(cancellationToken);
 
-            if (plateGroup == null)
-            {
-                throw new ArgumentException("No image found with that id.");
-            }
+        //     if (plateGroup == null)
+        //     {
+        //         throw new ArgumentException("No image found with that id.");
+        //     }
 
-            if (plateGroup.PlateImage == null)
-            {
-                var image = await GetCropImageFromAgentAsync(
-                    processorContext,
-                    imageId + "?" + plateGroup.PlateCoordinates,
-                    cancellationToken);
+        //     if (plateGroup.PlateImage == null)
+        //     {
+        //         var image = await GetCropImageFromAgentAsync(
+        //             processorContext,
+        //             imageId + "?" + plateGroup.PlateCoordinates,
+        //             cancellationToken);
 
-                plateGroup.PlateImage = new PlateImage()
-                {
-                    Jpeg = image,
-                    IsCompressed = isImageCompressionEnabled,
-                };
+        //         plateGroup.PlateImage = new PlateImage()
+        //         {
+        //             Jpeg = image,
+        //             IsCompressed = isImageCompressionEnabled,
+        //         };
 
-                await processorContext.SaveChangesAsync(cancellationToken);
-            }
+        //         await processorContext.SaveChangesAsync(cancellationToken);
+        //     }
 
-            return new MemoryStream(plateGroup.PlateImage.Jpeg);
-        }
+        //     return new MemoryStream(plateGroup.PlateImage.Jpeg);
+        // }
 
         public async static Task<byte[]> GetImageFromAgentAsync(
             ProcessorContext processorContext,

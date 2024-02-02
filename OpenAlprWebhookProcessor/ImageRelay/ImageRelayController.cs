@@ -24,45 +24,45 @@ namespace OpenAlprWebhookProcessor.ImageRelay
             _getSnapshotHandler = getSnapshotHandler;
         }
 
-        [HttpGet("{imageId}")]
-        public async Task<IActionResult> GetImage(
-            string imageId,
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                var image = await GetImageHandler.GetImageFromLocalAsync(
-                    _processorContext,
-                    imageId,
-                    cancellationToken);
+        // [HttpGet("{imageId}")]
+        // public async Task<IActionResult> GetImage(
+        //     string imageId,
+        //     CancellationToken cancellationToken)
+        // {
+        //     try
+        //     {
+        //         // var image = await GetImageHandler.GetImageFromLocalAsync(
+        //         //     _processorContext,
+        //         //     imageId,
+        //         //     cancellationToken);
 
-                return File(image, "image/jpeg");
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //         //return File(image, "image/jpeg");
+        //     }
+        //     catch
+        //     {
+        //         return NotFound();
+        //     }
+        // }
 
-        [HttpGet("crop/{imageId}")]
-        public async Task<IActionResult> GetCropImage(
-            string imageId,
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                var cropImage = await GetImageHandler.GetCropImageFromLocalAsync(
-                    _processorContext,
-                    imageId,
-                    cancellationToken);
+        // [HttpGet("crop/{imageId}")]
+        // public async Task<IActionResult> GetCropImage(
+        //     string imageId,
+        //     CancellationToken cancellationToken)
+        // {
+        //     try
+        //     {
+        //         var cropImage = await GetImageHandler.GetCropImageFromLocalAsync(
+        //             _processorContext,
+        //             imageId,
+        //             cancellationToken);
 
-                return File(cropImage, "image/jpeg");
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //         return File(cropImage, "image/jpeg");
+        //     }
+        //     catch
+        //     {
+        //         return NotFound();
+        //     }
+        // }
 
         [HttpGet("{cameraId}/snapshot")]
         public async Task<IActionResult> GetSnapshot(
