@@ -10,13 +10,9 @@
                 mode="indeterminate"
                 diameter="100"
                 *ngIf="loadingVehicleImage"></mat-progress-spinner> -->
-            <img [src]="this.vehicleImageUrl"
+            <img src="http://192.168.4.211:5500/images/vehicles/{{getYear(plate.receivedOn)}}/{{getMonth(plate.receivedOn)}}/{{getDay(plate.receivedOn)}}/{{this.vehicleImageUrl}}.jpg"
                 class="resize-mobile"
-                style="cursor: pointer;"
-                alt=""
-                tabindex="0"
-                (click)="openLightbox(plate.imageUrl, plate.plateNumber)"
-                (keydown)="openLightbox(plate.imageUrl, plate.plateNumber)" />
+                alt="" />
             <!-- <mat-icon style="font-size: 100px; line-height: normal;"
                 *ngIf="!this.vehicleImageUrl|| loadingVehicleImageFailed"
                 [inline]="true"
@@ -27,10 +23,7 @@
                 mode="indeterminate"
                 diameter="100">
             </mat-progress-spinner> -->
-            <img [src]="this.plateImageUrl"
-                class="resize-mobile"
-                style="width: 500px; padding-top:16px;"
-                alt="" />
+            <img src="http://192.168.4.211:5500/images/plates/{{getYear(plate.receivedOn)}}/{{getMonth(plate.receivedOn)}}/{{getDay(plate.receivedOn)}}/{{this.plateImageUrl}}.jpg" class="resize-mobile" style="width: 500px; padding-top:16px;" alt="{{getYear(plate.receivedOn)}}" />
             <!-- <mat-icon style="font-size: 100px; line-height: normal;"
                 *ngIf="!this.plateImageUrl || loadingPlateImageFailed"
                 [inline]="true"

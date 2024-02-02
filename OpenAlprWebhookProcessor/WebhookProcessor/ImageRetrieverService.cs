@@ -141,7 +141,14 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                                 IsCompressed = isImageCompressionEnabled,
                             };
 
-                            System.IO.File.WriteAllBytes("/Volumes/ALPR/data/images/crop/" + job + ".jpg", plateGroup.PlateImage.Jpeg);
+                            var currentDay = DateTime.Now.Day.ToString("00");
+                            var currentMonth = DateTime.Now.Month.ToString("00");
+                            var currentYear = DateTime.Now.Year.ToString();
+
+                            var PlateImagePath = "/Volumes/ALPR/data/images/plates/" + currentYear + "/" + currentMonth + "/" + currentDay + "/";
+
+                            System.IO.Directory.CreateDirectory(PlateImagePath);
+                            System.IO.File.WriteAllBytes(PlateImagePath + job + ".jpg", plateGroup.PlateImage.Jpeg);
 
                             plateGroup.VehicleImage = new VehicleImage()
                             {
@@ -149,9 +156,10 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                                 IsCompressed = isImageCompressionEnabled,
                             };
 
-                            System.IO.File.WriteAllBytes("/Volumes/ALPR/data/images/" + job + ".jpg", plateGroup.VehicleImage.Jpeg);
+                            var VehicleImagePath = "/Volumes/ALPR/data/images/vehicles/" + currentYear + "/" + currentMonth + "/" + currentDay + "/";
 
-                            logger.LogInformation("file for: {imageId}", plateGroup.VehicleImage.Jpeg);
+                            System.IO.Directory.CreateDirectory(VehicleImagePath);
+                            System.IO.File.WriteAllBytes(VehicleImagePath + job + ".jpg", plateGroup.VehicleImage.Jpeg);
 
                         // }
                         // catch (Exception ex)

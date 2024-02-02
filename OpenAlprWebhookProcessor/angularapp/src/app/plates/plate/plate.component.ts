@@ -150,14 +150,14 @@ export class PlateComponent implements OnInit, OnChanges, OnDestroy {
         //     this.loadingVehicleImage = true;
         //     this.loadingVehicleImageFailed = false;
         // }
-        this.vehicleImageUrl = 'http://192.168.4.211:5500' + this.plate.imageUrl.toString() + '.jpg';
+        this.vehicleImageUrl = this.plate.imageUrl.toString();
     
         // if (!this.plateImageUrl) {
         //     this.loadingPlateImage = true;
         //     this.loadingPlateImageFailed = false;
         //     this.plateImageUrl = this.plate.cropImageUrl.toString();
         // }
-        this.plateImageUrl = 'http://192.168.4.211:5500' + this.plate.cropImageUrl.toString() + '.jpg';
+        this.plateImageUrl = this.plate.cropImageUrl.toString();
     }
 
     public openLightbox(url: URL, plateNumber: string) {
@@ -168,6 +168,18 @@ export class PlateComponent implements OnInit, OnChanges, OnDestroy {
         }];
 
         this.lightbox.open(albums, 0);
+    }
+
+    public getDay(receivedOn) {
+        return receivedOn.substring(8,10);
+    }
+
+    public getMonth(receivedOn) {
+        return receivedOn.substring(5,7);
+    }
+
+    public getYear(receivedOn) {
+        return receivedOn.substring(0,4);
     }
 
     public vehicleImageLoaded() {
