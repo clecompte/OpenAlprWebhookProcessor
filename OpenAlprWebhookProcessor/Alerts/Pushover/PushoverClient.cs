@@ -34,7 +34,7 @@ namespace OpenAlprWebhookProcessor.Alerts.Pushover
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<PushoverClient>>();
 
-                logger.LogInformation("Sending Alert via Pushover.");
+                //logger.LogInformation("Sending Alert via Pushover.");
 
                 var processorContext = scope.ServiceProvider.GetRequiredService<ProcessorContext>();
 
@@ -96,7 +96,7 @@ namespace OpenAlprWebhookProcessor.Alerts.Pushover
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<PushoverClient>>();
 
-                logger.LogInformation("Sending Alert via Pushover.");
+                //logger.LogInformation("Sending Alert via Pushover.");
 
                 var processorContext = scope.ServiceProvider.GetRequiredService<ProcessorContext>();
 

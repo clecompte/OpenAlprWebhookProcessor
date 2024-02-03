@@ -64,7 +64,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
             using (var scope = _serviceProvider.CreateScope())
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<ImageRetrieverService>>();
-                logger.LogInformation("adding job for image: {imageId}", openAlprImageId);
+                //logger.LogInformation("adding job for image: {imageId}", openAlprImageId);
 
                 lock (_imageRequestsToProcessGate)
                 {
@@ -100,7 +100,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<ImageRetrieverService>>();
-                    logger.LogInformation("{numberOfRequests} images queued for processing", _imageRequestsToProcess.Count);
+                    //logger.LogInformation("{numberOfRequests} images queued for processing", _imageRequestsToProcess.Count);
 
                     var processorContext = scope.ServiceProvider.GetRequiredService<ProcessorContext>();
 
@@ -176,7 +176,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                         // }
                     }
 
-                    logger.LogInformation("finished job for image: {imageId}", job);
+                    //logger.LogInformation("finished job for image: {imageId}", job);
                 }
             }
         }

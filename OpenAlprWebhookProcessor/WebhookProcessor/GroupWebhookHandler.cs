@@ -137,7 +137,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
 
             await _processorContext.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("plate saved successfully");
+            //_logger.LogInformation("plate saved successfully");
 
             _imageRetrieverService.TryAddJob(plateGroup.OpenAlprUuid);
 
