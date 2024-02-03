@@ -90,7 +90,46 @@ namespace OpenAlprWebhookProcessor
                 {
                     agent = new Data.Agent();
 
-                    context.Agents.Add(agent);
+                    context.Agents.Add(new OpenAlprWebhookProcessor.Data.Agent()
+                    {
+                        EndpointUrl = GlobalSettings.Setup.endpointUrl,
+                        Hostname = null,
+                        Id = Guid.NewGuid(),
+                        IsDebugEnabled = false,
+                        IsImageCompressionEnabled = false,
+                        LastHeartbeatEpochMs = 0,
+                        LastSuccessfulScrapeEpoch = 0,
+                        Latitude = null,
+                        Longitude = null,
+                        NextScrapeEpochMs = null,
+                        OpenAlprWebServerApiKey = null,
+                        OpenAlprWebServerUrl = "https://cloud.openalpr.com/",
+                        ScheduledScrapingIntervalMinutes = null,
+                        SunriseOffset = 0,
+                        SunsetOffset = 0,
+                        TimeZoneOffset = 0,
+                        Uid = null,
+                        Version = null,
+                    });
+
+                    context.Cameras.Add(new OpenAlprWebhookProcessor.Data.Camera()
+                    {
+                        Id = Guid.NewGuid(),
+                        Manufacturer = OpenAlprWebhookProcessor.Cameras.Configuration.CameraManufacturer.Dahua,
+                        OpenAlprCameraId = GlobalSettings.Setup.firstCameraId,
+                        OpenAlprName = GlobalSettings.Setup.firstCameraName,
+                        OpenAlprEnabled = true,
+                    });
+
+                    context.Cameras.Add(new OpenAlprWebhookProcessor.Data.Camera()
+                    {
+                        Id = Guid.NewGuid(),
+                        Manufacturer = OpenAlprWebhookProcessor.Cameras.Configuration.CameraManufacturer.Dahua,
+                        OpenAlprCameraId = GlobalSettings.Setup.secondCameraId,
+                        OpenAlprName = GlobalSettings.Setup.secondCameraName,
+                        OpenAlprEnabled = true,
+                    });
+
                     context.SaveChanges();
                 }
             }

@@ -362,3 +362,4 @@ OpenAlprWebhookProcessor/angularapp/.angular/*
 .DS_Store
 nohup.out
 config
+GlobalSettings.cs

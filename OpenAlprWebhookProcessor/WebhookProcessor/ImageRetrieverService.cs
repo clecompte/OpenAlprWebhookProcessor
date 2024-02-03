@@ -145,7 +145,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                             var currentMonth = DateTime.Now.Month.ToString("00");
                             var currentYear = DateTime.Now.Year.ToString();
 
-                            var PlateImagePath = "/Volumes/ALPR/data/images/plates/" + currentYear + "/" + currentMonth + "/" + currentDay + "/";
+                            var PlateImagePath = GlobalSettings.Setup.platePath + currentYear + "/" + currentMonth + "/" + currentDay + "/";
 
                             System.IO.Directory.CreateDirectory(PlateImagePath);
                             System.IO.File.WriteAllBytes(PlateImagePath + job + ".jpg", plateGroup.PlateImage.Jpeg);
@@ -156,7 +156,7 @@ namespace OpenAlprWebhookProcessor.WebhookProcessor
                                 IsCompressed = isImageCompressionEnabled,
                             };
 
-                            var VehicleImagePath = "/Volumes/ALPR/data/images/vehicles/" + currentYear + "/" + currentMonth + "/" + currentDay + "/";
+                            var VehicleImagePath = GlobalSettings.Setup.vehiclePath + currentYear + "/" + currentMonth + "/" + currentDay + "/";
 
                             System.IO.Directory.CreateDirectory(VehicleImagePath);
                             System.IO.File.WriteAllBytes(VehicleImagePath + job + ".jpg", plateGroup.VehicleImage.Jpeg);
