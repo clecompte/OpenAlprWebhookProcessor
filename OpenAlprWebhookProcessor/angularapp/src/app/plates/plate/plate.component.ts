@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { PathConfig } from '../../../pathconfig';
 
 @Component({
     selector: 'app-plate',
@@ -46,6 +47,8 @@ export class PlateComponent implements OnInit, OnChanges, OnDestroy {
     public displayedColumns: string[] = ['key', 'value'];
 
     private statisticsSubscription = new Subscription();
+
+    public pathconfig = PathConfig.local_uri;
 
     constructor(
         private lightbox: Lightbox,

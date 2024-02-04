@@ -139,7 +139,7 @@ _TeamCity*
 
 # Visual Studio code coverage results
 *.coverage
-*.coveragexml
+*.coveragexml 
 
 # NCrunch
 _NCrunch_*
@@ -363,3 +363,4 @@ OpenAlprWebhookProcessor/angularapp/.angular/*
 nohup.out
 config
 GlobalSettings.cs
+pathconfig.ts

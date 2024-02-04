@@ -14,6 +14,8 @@ namespace OpenAlprWebhookProcessor.LicensePlates
             List<string> platesToIgnore = null,
             List<string> platesToAlert = null)
         {
+            var getDate = DateTimeOffset.FromUnixTimeMilliseconds(plate.ReceivedOnEpoch).UtcDateTime;
+
             return new LicensePlate()
             {
                 AlertDescription = plate.AlertDescription,
@@ -30,7 +32,7 @@ namespace OpenAlprWebhookProcessor.LicensePlates
                 PlateNumber = plate.BestNumber,
                 PossiblePlateNumbers = string.Join(", ", plate.PossibleNumbers.Select(x => x.Number).ToList()),
                 ProcessedPlateConfidence = plate.Confidence,
-                ReceivedOn = DateTimeOffset.FromUnixTimeMilliseconds(plate.ReceivedOnEpoch),
+                ReceivedOn = TimeZoneInfo.ConvertTimeFromUtc(getDate, TimeZoneInfo.FindSystemTimeZoneById("America/New_York")),
                 Region = TryTranslateRegion(plate.VehicleRegion),
                 VehicleDescription = VehicleUtilities.FormatVehicleDescription(plate.VehicleYear + " " + plate.VehicleMakeModel),
             };
